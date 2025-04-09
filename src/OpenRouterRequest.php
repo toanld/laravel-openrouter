@@ -7,6 +7,7 @@ namespace MoeMizrak\LaravelOpenrouter;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use JsonException;
 use MoeMizrak\LaravelOpenrouter\DTO\ChatData;
 use MoeMizrak\LaravelOpenrouter\DTO\CostResponseData;
@@ -16,6 +17,7 @@ use MoeMizrak\LaravelOpenrouter\DTO\RateLimitData;
 use MoeMizrak\LaravelOpenrouter\DTO\ResponseData;
 use MoeMizrak\LaravelOpenrouter\DTO\UsageData;
 use Psr\Http\Message\ResponseInterface;
+
 
 /**
  * OpenRouter request and formed response class.
@@ -276,7 +278,7 @@ final class OpenRouterRequest extends OpenRouterAPI
 
         // Map the response data to CostResponseData and return it.
         return new CostResponseData(
-            id: Arr::get($response, 'data.id'),
+            id: (string) (Arr::get($response, 'id') ?? Str::uuid()),
             model: Arr::get($response, 'data.model'),
             total_cost: Arr::get($response, 'data.total_cost'),
             origin: Arr::get($response, 'data.origin'),
