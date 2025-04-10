@@ -47,7 +47,7 @@ This Laravel package provides an easy-to-use interface for integrating **[OpenRo
 
 You can **install** the package via composer:
 ```bash
-composer require moe-mizrak/laravel-openrouter
+composer require toanld/laravel-openrouter
 ```
 
 You can **publish** the **config file** with:
