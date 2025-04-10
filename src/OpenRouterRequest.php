@@ -240,6 +240,11 @@ final class OpenRouterRequest extends OpenRouterAPI
      */
     private function formChatResponse(mixed $response = null) : ResponseData
     {
+        if (isset($response['error']) && isset($response['error']['message']) && isset($response['error']['code'])) {
+            throw new \RuntimeException(
+                'OpenRouter Error: ' . $response['error']['message'] . ' (Code: ' . $response['error']['code'] . ')'
+            );
+        }
         // Map the usage data if it exists.
         $usageArray = Arr::get($response, 'usage');
         $usage = new UsageData(
