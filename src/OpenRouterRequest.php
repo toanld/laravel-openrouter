@@ -70,11 +70,6 @@ final class OpenRouterRequest extends OpenRouterAPI
             );
 
             $body = (string) $response->getBody();
-            \Log::channel('chatbot')->info("✅ OpenRouter raw response", [
-                'status' => $response->getStatusCode(),
-                'body' => $body,
-            ]);
-
             $response = $this->jsonDecode($response);
             return $this->formChatResponse($response);
 
