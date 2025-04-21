@@ -62,11 +62,36 @@ final class OpenRouterRequest extends OpenRouterAPI
         ];
 
         // Send POST request to the OpenRouter API chat completion endpoint and get the response.
-        $response = app(ClientInterface::class)->request(
-            'POST',
-            $chatCompletionPath,
-            $options
-        );
+        try {
+            $response = app(ClientInterface::class)->request(
+                'POST',
+                $chatCompletionPath,
+                $options
+            );
+
+            $body = (string) $response->getBody();
+            \Log::channel('chatbot')->info("✅ OpenRouter raw response", [
+                'status' => $response->getStatusCode(),
+                'body' => $body,
+            ]);
+
+            $response = $this->jsonDecode($response);
+            return $this->formChatResponse($response);
+
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $response = $e->getResponse();
+            $status = $response ? $response->getStatusCode() : 'N/A';
+            $body = $response ? (string) $response->getBody() : 'No response body';
+
+            \Log::channel('chatbot')->error("❌ OpenRouter API Error", [
+                'status' => $status,
+                'body' => $body,
+                'error' => $e->getMessage(),
+            ]);
+
+            throw new \RuntimeException("OpenRouter Error: {$e->getMessage()} (HTTP $status)\nResponse: $body");
+        }
+
 
         // Decode the json response
         $response = $this->jsonDecode($response);
