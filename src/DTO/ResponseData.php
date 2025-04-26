@@ -78,7 +78,7 @@ final class ResponseData extends DataTransferObject
          *
          * @var string[]|null
          */
-        public ?array $citations,
+        public ?array $citations = null,
     ) {
         parent::__construct(...func_get_args());
     }
