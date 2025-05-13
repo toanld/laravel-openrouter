@@ -24,22 +24,23 @@ final class ImageContentPartData extends DataTransferObject
      */
     public function __construct(
         /**
+         * DTO of image url.
+         *
+         * @var ImageUrlData
+         */
+        public ImageUrlData $image_url,
+
+        /**
          * Type of the content. (i.e. image_url)
          *
          * @var string
          */
         #[AllowedValues([self::ALLOWED_TYPE])]
         public string $type = self::ALLOWED_TYPE,
-
-        /**
-         * DTO of image url.
-         *
-         * @var ImageUrlData
-         */
-        public ImageUrlData $image_url
     ) {
         parent::__construct(...func_get_args());
     }
+
 
     /**
      * @return array
