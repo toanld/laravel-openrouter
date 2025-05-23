@@ -45,6 +45,7 @@ final class MessageData extends DataTransferObject
          * @var string|null
          */
         public ?string $name = null,
+        public ?string $timestamp = null,
     ) {
         parent::__construct(...func_get_args());
     }
@@ -74,6 +75,7 @@ final class MessageData extends DataTransferObject
                         }, $this->toolCalls)
                     : null,
                 'name'      => $this->name,
+                'timestamp' => $this->timestamp,
             ],
             fn($value) => $value !== null
         );
